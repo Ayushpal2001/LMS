@@ -1,6 +1,9 @@
 # Node modules
 node_modules/
 
+#Client info
+client/README.md
+
 # Environment variables
 .env
 server/.env
