@@ -98,4 +98,3 @@ function App() {
 export default App
 
 
-// mongodb+srv://lmsadmin:ayush123@cluster0.lxfsxkt.mongodb.net/?appName=Cluster0
