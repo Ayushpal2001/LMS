@@ -7,6 +7,7 @@ client/README.md
 # Environment variables
 .env
 server/.env
+server/uploads
 
 # Build outputs
 dist/

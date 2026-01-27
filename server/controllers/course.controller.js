@@ -34,7 +34,7 @@ export const createCourse = async(req,res)=>{
 
 export const getPublishedCourse = async(_,res)=>{
     try {
-        const courses = await Course.find({isPublished:true}).populate({path:"creator", select:"name photoUrl"});
+        const courses = await Course.find({isPublished:true}).populate({path:"creator", select:"name photoUrl"}).select("-lectures");
         if(!courses){
             return res.status(404).json({
                 message:"Course not found"
@@ -132,37 +132,35 @@ export const getCourseById = async(req,res)=>{
     }
 }
 
-export const createLecture = async(req,res)=>{
-    try {
-        const {lectureTitle} = req.body;
-        const {courseId} = req.params;
+export const createLecture = async (req, res) => {
+  try {
+    const { lectureTitle } = req.body;
+    const { courseId } = req.params;
 
-        if(!lectureTitle || !courseId){
-            return res.status(400).json({
-                message:"Lecture title is required",
-                success:false
-            })
-        }
-        const lecture = await Lecture.create({lectureTitle});
-        const course = await Course.findById(courseId);
-        if(course){
-            course.lectures.push(lecture._id);
-        }
-        await course.save();
-        return res.status(201).json({
-            message:'Lecture created successfully',
-            lecture,
-            success:true
-        })
-
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            message:"Failed to create lecture",
-            success:false   
-        })
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found",
+        success: false
+      });
     }
-}
+
+    const lecture = await Lecture.create({ lectureTitle });
+
+    course.lectures.push(lecture._id);
+    await course.save();
+
+    return res.status(201).json({
+      lecture,
+      success: true
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false });
+  }
+};
+
 
 export const getCourseLecture = async (req,res)=>{
     try {

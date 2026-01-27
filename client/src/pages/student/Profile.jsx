@@ -74,7 +74,7 @@ const [name, setName] = useState("");
         <div className="flex flex-col items-center ">
           <Avatar className="h-24 w-24 md:h-32 w-32 mb-4">
             <AvatarImage
-              src={user.photoUrl || "https://github.com/shadcn.png"}
+              src={user?.photoUrl || "https://github.com/shadcn.png"}
               alt="@shadcn"
             />
             <AvatarFallback>CN</AvatarFallback>
@@ -157,9 +157,9 @@ const [name, setName] = useState("");
           {user.enrolledCourses.length === 0 ? (
             <h1>You haven't enrolled yet.</h1>
           ) : (
-            user.enrolledCourses.map((course) => (
+            user.enrolledCourses.map((course) => 
               <Course course={course} key={course._id} />
-            ))
+            )
           )}
         </div>
       </div>

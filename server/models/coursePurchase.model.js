@@ -20,9 +20,13 @@ const coursePurchaseSchema = new mongoose.Schema({
         enum:['pending', 'completed', 'failed'],
         default:'pending'
     },
-    paymentId:{
+    razorpayOrderId:{
         type:String,
         required:true
+    },
+    razorpayPaymentId:{
+        type:String,
+        default:null
     }
 },{timestamps:true})
 

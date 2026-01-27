@@ -6,6 +6,8 @@ import courseRoute from './routes/course.route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import mediaRoute from './routes/media.route.js';
+import purchaseRoute from './routes/coursePurchase.route.js';
+import courseProgressRoute from './routes/courseProgress.route.js';
 
 dotenv.config();
 connectDB();
@@ -22,6 +24,8 @@ app.use(cors({
 app.use("/api/v1/media",mediaRoute);
 app.use("/api/v1/user",userRoute);
 app.use("/api/v1/course",courseRoute);
+app.use("/api/v1/purchase", purchaseRoute);
+app.use("/api/v1/progress", courseProgressRoute);
 app.get("/home",(_,res)=>{
     res.status(200).json({
         success:true,
