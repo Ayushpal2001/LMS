@@ -42,13 +42,16 @@ const CourseTab = () => {
     courseThumbnail: "",
   });
 
-  const { data: courseByIdData, isLoading: courseByIdLoading, refetch} =
-    useGetCourseByIdQuery(courseId, {refetchOnMountOrArgChange:true});
+  const {
+    data: courseByIdData,
+    isLoading: courseByIdLoading,
+    refetch,
+  } = useGetCourseByIdQuery(courseId, { refetchOnMountOrArgChange: true });
   const [editCourse, { data, isLoading, isSuccess, error }] =
     useEditCourseMutation();
   const [previewThumbnail, setPreviewThumbnail] = useState("");
-  const [publishCourse,{}] = usePublishCourseMutation();
-  
+  const [publishCourse, {}] = usePublishCourseMutation();
+
   useEffect(() => {
     if (courseByIdData?.course) {
       const course = courseByIdData?.course;
@@ -98,19 +101,18 @@ const CourseTab = () => {
     await editCourse({ formData, courseId });
   };
 
-  const publishStatusHandler = async (action)=>{
+  const publishStatusHandler = async (action) => {
     try {
-       const response = await publishCourse({courseId, query:action});
-       if(response.data){
+      const response = await publishCourse({ courseId, query: action });
+      if (response.data) {
         refetch();
         toast.success(response.data.message);
-       }
+      }
     } catch (error) {
       console.log(error);
-      toast.error("Failed to publish or unpublish course")
-      
+      toast.error("Failed to publish or unpublish course");
     }
-  }
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -121,7 +123,8 @@ const CourseTab = () => {
     }
   }, [isSuccess, error]);
 
-  if(courseByIdLoading) return <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+  if (courseByIdLoading)
+    return <Loader2 className="mr-2 h-4 w-4 animate-spin" />;
   const isPublished = false;
   return (
     <Card>
@@ -133,7 +136,15 @@ const CourseTab = () => {
           </CardDescription>
         </div>
         <div className="space-x-2">
-          <Button disabled={courseByIdData?.course.lectures.length === 0} variant="outline" onClick={()=>publishStatusHandler(courseByIdData?.course.isPublished ? "false" : "true")}>
+          <Button
+            disabled={courseByIdData?.course.lectures.length === 0}
+            variant="outline"
+            onClick={() =>
+              publishStatusHandler(
+                courseByIdData?.course.isPublished ? "false" : "true",
+              )
+            }
+          >
             {courseByIdData?.course.isPublished ? "Unpublished" : "Publish"}
           </Button>
           <Button>Remove course</Button>
@@ -182,6 +193,17 @@ const CourseTab = () => {
                     <SelectItem value="Cloud Computing">
                       Cloud Computing
                     </SelectItem>
+                    <SelectItem value="Artificial Intelligence">
+                      Artificial Intelligence
+                    </SelectItem>
+                    <SelectItem value="Web Development">
+                      Web Development
+                    </SelectItem>
+                    <SelectItem value="Prompt Engineering">
+                      Prompt Engineering
+                    </SelectItem>
+                    <SelectItem value="System Design">System Design</SelectItem>
+                    <SelectItem value="DSA">DSA</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
